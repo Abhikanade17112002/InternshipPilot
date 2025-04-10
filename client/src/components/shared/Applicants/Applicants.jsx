@@ -5,6 +5,7 @@ import ApplicantsTable from "../ApplicantsTable/ApplicantsTable";
 function Applicants() {
   const [searchParam, setSearchParam] = useState("");
 
+
   return (
     <div className="min-h-[100vh] px-4">
       <div className="max-w-7xl mx-auto my-10">

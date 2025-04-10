@@ -1,7 +1,5 @@
 
-
-
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -17,16 +15,15 @@ import { getUserInfo } from "@/store/userSlice/userSlice";
 import { toast } from "sonner";
 import { socketcontext } from "@/context/socketConext";
 
-const UserAppliedTable = () => {
+const UserAppliedTable = ({ searchTerm = "", sortBy = "date" }) => {
   const [allAppliedJobs, setAllAppliedJobs] = useState([]);
   const userId = useSelector(getUserInfo)?._id;
   const { socket } = useContext(socketcontext);
 
-
   const handleFetchAllUserApplications = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3000/api/application/get",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/application/get`,
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
@@ -34,7 +31,7 @@ const UserAppliedTable = () => {
       );
 
       if (data.status) {
-        setAllAppliedJobs((prevJobs) => 
+        setAllAppliedJobs((prevJobs) =>
           JSON.stringify(prevJobs) !== JSON.stringify(data.application)
             ? data.application
             : prevJobs
@@ -49,32 +46,60 @@ const UserAppliedTable = () => {
   };
 
   useEffect(() => {
-    const handleUpdate = (data)=>{
-  
+    handleFetchAllUserApplications();
+  }, []);
 
+  useEffect(() => {
+    const handleUpdate = (data) => {
+      setAllAppliedJobs((prevState) =>
+        prevState.map((application) =>
+          application._id === data.applicationId
+            ? { ...application, status: data.status }
+            : application
+        )
+      );
+    };
 
-      setAllAppliedJobs((prevState)=>prevState.map((application)=>{
-        if( application._id == data.applicationId){
-           const updated = {  ...application , "status":data.status};
-           return updated ;
-        }
-        else{
-          return application ;
-        }
-      }))
-      
-
-    }
     if (socket) {
       socket.on("updated-application-status", handleUpdate);
       return () => socket.off("updated-application-status", handleUpdate);
-
     }
   }, [socket]);
 
-  useEffect(() => {
-    handleFetchAllUserApplications();
-  }, []);
+  // 🔍 Filter and sort logic
+  const filteredAndSortedJobs = useMemo(() => {
+    let filtered = allAppliedJobs.filter((job) => {
+      const jobTitle = job.job?.title?.toLowerCase() || "";
+      const companyName = job.job?.company?.companyName?.toLowerCase() || "";
+      return (
+        jobTitle.includes(searchTerm.toLowerCase()) ||
+        companyName.includes(searchTerm.toLowerCase())
+      );
+    });
+
+    switch (sortBy) {
+      case "company":
+        filtered.sort((a, b) =>
+          (a.job?.company?.companyName || "").localeCompare(
+            b.job?.company?.companyName || ""
+          )
+        );
+        break;
+      case "title":
+        filtered.sort((a, b) =>
+          (a.job?.title || "").localeCompare(b.job?.title || "")
+        );
+        break;
+      case "date":
+      default:
+        filtered.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        break;
+    }
+
+    return filtered;
+  }, [allAppliedJobs, searchTerm, sortBy]);
 
   return (
     <div>
@@ -89,14 +114,14 @@ const UserAppliedTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {allAppliedJobs?.length === 0 ? (
+          {filteredAndSortedJobs?.length === 0 ? (
             <TableRow>
               <TableCell colSpan={4} className="text-center">
-                You haven't applied to any job yet.
+                No matching jobs found.
               </TableCell>
             </TableRow>
           ) : (
-            allAppliedJobs.map((appliedJob) => (
+            filteredAndSortedJobs.map((appliedJob) => (
               <TableRow key={appliedJob._id}>
                 <TableCell>{appliedJob?.createdAt?.split("T")[0]}</TableCell>
                 <TableCell>{appliedJob.job?.title}</TableCell>

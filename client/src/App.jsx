@@ -26,6 +26,8 @@ import AdminJobs from "./components/shared/AdminJobs/AdminJobs";
 import PostJob from "./components/shared/PostJob/PostJob";
 import Applicants from "./components/shared/Applicants/Applicants";
 import Recomandations from "./components/shared/Recomandations/Recomandations";
+import MarqueeDemo from './components/shared/Marquee/Marquee';
+import { InteractiveGridPatternDemo } from "./components/shared/InterractiveGridDemo/InteractiveGridDemo";
 
 const router = createBrowserRouter([
   {
@@ -43,10 +45,18 @@ const router = createBrowserRouter([
         path: "/",
         element: (
           <div className="w-full">
+            
+           
             <HeroSection></HeroSection>
+           
             <div className="px-20  lg:max-w-[60%] mx-auto">
               <CategoryCarousel></CategoryCarousel>
+              
             </div>
+            <div className="pt-12 px-16">
+            <MarqueeDemo></MarqueeDemo>
+            </div>
+           
 
             <LatestJobs></LatestJobs>
           </div>

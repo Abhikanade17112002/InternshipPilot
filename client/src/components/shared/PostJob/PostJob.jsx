@@ -45,7 +45,7 @@ const PostJob = () => {
       setSubmitting(true);
 
       const response = await axios.post(
-        `http://localhost:3000/api/job/post`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/job/post`,
         data,
         {
           headers: {

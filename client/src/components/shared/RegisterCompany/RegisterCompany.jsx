@@ -13,7 +13,7 @@ const RegisterCompany = () => {
   const handleRegisterCompany = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/company/register",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/company/register`,
         {
           companyName: companyName,
         },

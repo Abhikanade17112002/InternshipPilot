@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   Carousel,
@@ -9,39 +10,49 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
-const category = [
+const categories = [
   "FrontEnd Developer",
   "BackEnd Developer",
   "Data Science",
   "Graphic Designer",
   "FullStack Developer",
- 
+  "UI/UX Designer",
+  "Cloud Engineer",
+  "Mobile Developer",
 ];
 
 const CategoryCarousel = () => {
   const navigate = useNavigate();
+
   const searchJobHandler = (query) => {
-    navigate(`jobs/browse/${query}`);
+    navigate(`/jobs/browse/${query}`);
   };
 
   return (
-    <div className=" ">
-      <Carousel className="text-[10px]">
+    <div className="w-full py-6 px-2 sm:px-4">
+      <Carousel
+        opts={{ align: "start", loop: true }}
+        className="w-full max-w-6xl mx-auto"
+      >
         <CarouselContent>
-          {category.map((cat, index) => (
-            <CarouselItem key={index} className="basis-5/2 text-[10px]">
+          {categories.map((cat, index) => (
+            <CarouselItem
+              key={index}
+              className="basis-[130px] sm:basis-[160px] md:basis-[180px] lg:basis-[200px] flex justify-center"
+            >
               <Button
                 onClick={() => searchJobHandler(cat)}
                 variant="outline"
-                className="text-[8px] md:text-sm rounded-full"
+                className="rounded-full w-full text-xs sm:text-sm whitespace-nowrap"
               >
                 {cat}
               </Button>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+
+        <CarouselPrevious className="-left-5" />
+        <CarouselNext className="-right-5" />
       </Carousel>
     </div>
   );

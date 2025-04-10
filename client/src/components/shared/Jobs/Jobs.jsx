@@ -26,7 +26,7 @@ const Jobs = () => {
     {
       id: 5,
       label: "Salary",
-      value: ["0-50000", "50000-100000", "100000-200000"],
+      value: ["0-5LPA", "5LPA-10LPA", "10LPA-20LPA"],
     },
   ];
 

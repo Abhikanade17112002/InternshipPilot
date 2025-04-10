@@ -15,7 +15,7 @@ const SocketContextProvider = ({children}) =>{
         
       
         //  Instance Of Socket
-        const newSocket = io('http://localhost:3000',{
+        const newSocket = io(`${import.meta.env.VITE_BACKEND_BASE_URL}`,{
           query: { userId: userInfo?._id },
           withCredentials: true,
         });

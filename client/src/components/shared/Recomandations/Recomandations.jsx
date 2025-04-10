@@ -34,14 +34,14 @@ const filtersArray = [
   {
     id: 5,
     label: "Salary",
-    value: ["0-50000", "50000-100000", "100000-200000"],
+    value: ["0-5 LPA", "5 LPA-10 LPA", "10 LPA-20 LPA"],
   },
 ];
 
   const handlePostInfo = async () =>{
 
 
-    const response = await axios.post("http://localhost:3000/api/features/test",{"userInfo":modifiedUser , "internships":allJobs},
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/features/test`,{"userInfo":modifiedUser , "internships":allJobs},
         {
           headers: {
             "Content-Type":  "application/json",

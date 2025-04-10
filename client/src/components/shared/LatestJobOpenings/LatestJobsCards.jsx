@@ -7,7 +7,7 @@ const LatestJobCards = ({ job }) => {
   return (
     <div
       onClick={() => navigate(`jobs/${job._id}`)}
-      className="  p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer"
+      className=" max-h-[350px] overflow-y-hidden p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer"
     >
       <div className="flex items-center py-4">
         <div className="w-10 h-10 flex justify-center items-center">
@@ -17,12 +17,12 @@ const LatestJobCards = ({ job }) => {
           {job?.company?.companyName || "company name"}
         </h1>
       </div>
-      <p className="text-sm text-gray-500 px-1">{job?.location}</p>
+      <p className="text-sm text-gray-500 px-1">{job?.company?.companyAddress}</p>
       <div>
         <h1 className="font-bold md:text-lg my-2 text-sm">
           {job?.title || "job title"}
         </h1>
-        <p className="md:text-sm text-gray-600 text-[12px]">
+        <p className="md:text-sm text-gray-600 text-[12px] line-clamp-6">
           {job?.description || "job descriprtion"}
         </p>
       </div>

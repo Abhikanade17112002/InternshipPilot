@@ -24,7 +24,7 @@ function Companies() {
                         placeholder="Filter by name"
                         onChange={(e) => setSearchParam(e.target.value)}
                     />
-                    <Button  className="text-[10px] sm:text-sm" onClick={() => navigate("/admin/company/register")}>New Company</Button>
+                    <Button  className="text-[10px] sm:text-sm" onClick={() => navigate("/admin/company/register")}>Register A New Company</Button>
                 </div>
                 <CompaniesTable   searchParam={searchParam}  setSearchParam={setSearchParam}/>
             </div>

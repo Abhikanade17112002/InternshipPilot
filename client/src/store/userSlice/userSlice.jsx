@@ -11,7 +11,7 @@ export const handleUserReAuthentication = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/auth/authenticate",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/authenticate`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export const handleUserSignUpAction = createAsyncThunk(
   async (FormData) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/signup",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/signup`,
         FormData,
         {
           headers: {
@@ -52,7 +52,7 @@ export const handleUserSignInAction = createAsyncThunk(
   async (FormData) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/signin",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/signin`,
         FormData,
         {
           withCredentials: true,
@@ -73,7 +73,7 @@ export const handleUserSignOutAction = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/auth/signout",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/signout`,
         {
           withCredentials: true,
           headers: {
@@ -94,7 +94,7 @@ export const handleUserUpdateProfileAction = createAsyncThunk(
   async (FormData) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/profile/update",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/profile/update`,
         FormData,
         {
           withCredentials: true,
