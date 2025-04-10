@@ -6,6 +6,9 @@ const handleApplyToJob = async (req, res) => {
     try {
         const userId = req.userId;
         const jobId = req.params.jobId;
+
+        console.log(userId,jobId,"THHISSS");
+        
         if (!jobId) {
             return res.status(200).json({
                 message: "job id is required.",
@@ -83,8 +86,12 @@ const handleGetAllAppliedApplicants = async (req,res) => {
             path:'applications',
             options:{sort:{createdAt:-1}},
             populate:{
-                path:'applicant'
+                path:'applicant',
+            
             }
+        }).populate({
+            path:'company',
+            
         });
         if(!job){
             return res.status(200).json({

@@ -5,34 +5,26 @@ const reccomandationController = async (request,response) =>{
 
     try {
         const data = request.body;
-        // console.log(data);
-        
-        // console.log(data.userInfo.skills);
-        // ,"skills":data?.userInfo.profile.skills
+        console.log(typeof data);
+
         const filtertedUserInfo = {"name":data?.userInfo.firstname + " " + data?.userInfo.lastname , "skills": data.userInfo.skills} ;
         const FiltredInternshipData = data.internships.map((internship)=>{
             return {
                  "jobId": internship?._id , "jd":internship.description ,"title":internship.title , "company":internship.company.companyName ,"location":internship.location, "requirements" :internship.requirements
             }
         });
-        // console.log("Received  User data:", filtertedUserInfo);
-        // console.log("Received  Internship data:", FiltredInternshipData);
 
-        // console.log("THIS" ,{
-        //     "student": filtertedUserInfo,
-        //     "internships": FiltredInternshipData,
-        //     // "jd":
-        //     "top_n": 2,
-        //     "min_similarity": 0.1
-        // });
         
 
         // Make the API call and await the response
-        const apiResponse = await axios.post("http://0.0.0.0:8000/recommendations/", {
+
+        console.log("Here Here");
+        
+        const apiResponse = await axios.post(`${process.env.FEATURE_BASE_URL}/api/feature/recommend`, {
             "student": filtertedUserInfo,
             "internships": FiltredInternshipData,
-            "top_n": 2,
-            "min_similarity": 0.1
+            "top_n": 15,
+            "min_similarity": 0.09
         });
 
         console.log("API Response:", apiResponse.data );
@@ -60,14 +52,14 @@ const analyserController = async (request,response) =>{
         const data = request.body;
         console.log(data,"DATA DATA");
         
-        const apiResponse = await axios.post("http://127.0.0.1:8000/analyze", data);
+        const apiResponse = await axios.post(`${process.env.FEATURE_BASE_URL}/api/feature/analyze`, data);
 
         console.log("API Response:", apiResponse.data );
         // Send API response back to the client
         response.json({
             message: "Success",
             status: "Success",
-            "data":apiResponse.data
+            "data":apiResponse.data.results[0]
            // Return the response from external API
         });
 
@@ -81,7 +73,36 @@ const analyserController = async (request,response) =>{
 }
 
 
+
+
+const evaluateUserResumeATSScore = async ( request , response ) =>{
+
+    try {
+
+        console.log(request.body,"THIS IS A BODY");
+        const data = request.body;
+        
+        const apiResponse = await axios.post(`${process.env.FEATURE_BASE_URL}/api/feature/score`, data);
+
+        console.log("API Response:", apiResponse.data[0].ats_score );
+        return response.json({
+            "status":"Success",
+            "response":apiResponse?.data
+        })
+        
+    } catch (error) {
+
+        console.log("SOMETHING WENT WRONG WHEN EVALUATING USER RESUME :: SERVER SIDE",error);
+        
+    }
+
+}
+
+
+
+
 module.exports = {
     reccomandationController ,
-    analyserController
+    analyserController,
+    evaluateUserResumeATSScore
 }

@@ -1,4 +1,5 @@
-const {Server} = require("socket.io")
+const { Server } = require("socket.io");
+const sendEmail = require("../utiils/sendEmails");
 
 const disconnect = (socket) => {
   console.log(`CLIENT DISCONNECTED SOCKET ID ${socket.id}`);
@@ -15,14 +16,14 @@ const socketSetup = (httpServer) => {
   // Creating An IO Instance
   const IO = new Server(httpServer, {
     cors: {
-      origin:"http://localhost:5173",
+      origin: "http://localhost:5173",
       methods: ["GET", "POST"],
-      credentials:true
+      credentials: true,
     },
   });
   IO.on("connection", (socket) => {
     const userId = socket.handshake.query.userId;
-    
+
     if (userId) {
       userSocketMapping.set(userId, socket.id);
       console.log(
@@ -32,25 +33,26 @@ const socketSetup = (httpServer) => {
       console.log("NO USER ID FOUND");
     }
 
-    socket.on("update-appilcation-status",(data)=>{
-      console.log("YEEEEEAh",data);
+    socket.on("update-appilcation-status", (data) => {
       const reciverSocketId = userSocketMapping.get(data.applicantId);
-      console.log(reciverSocketId,"RSTD");
-      
+      const Mydata = {
+        subject: "STATUSUPDATE",
+        status: data?.status,
+        emailId: data?.emailId,
+        name: data?.name,
+        jobTitle: data?.jobTitle,
+        companyName: data?.companyName,
+        companyEmail: data?.companyEmail,
+      };
+      sendEmail(Mydata);
 
-
-      IO.to(reciverSocketId).emit("updated-application-status",{"status":data.status,"applicationId":data.applicationId});
-      
-    })
-    // socket.emit(
-    //   "join-message",
-    //   `WLCOME FROM SERVER USER WITH USER ID :: ${socket.id} `
-    // );
-    // socket.broadcast.emit(
-    //   "join-message",
-    //   `THE NEW USER WITH USER ID :: ${socket.id} HAS JOINED`
-    // );
+      IO.to(reciverSocketId).emit("updated-application-status", {
+        status: data.status,
+        applicationId: data.applicationId,
+      });
+    });
+    
   });
 };
 
-module.exports =  socketSetup;
+module.exports = socketSetup;

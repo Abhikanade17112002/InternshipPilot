@@ -36,7 +36,8 @@ const userSchema = new mongoose.Schema(
       company: { type: mongoose.Schema.Types.ObjectId, ref: "company" },
       profilePhoto: {
         type: String,
-        default: "",
+        default:
+          "https://res.cloudinary.com/du9ujqjwh/image/upload/v1743950817/user_tyrw1v.png",
       },
     },
     aiScore: { type: Number, default: null }, // Score from AI analysis

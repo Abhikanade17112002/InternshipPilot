@@ -1,30 +1,13 @@
 const router = require("express").Router();
-// const {
-//   handleUpdateApplicationStatus,
-//   handleApplyToJob,
-//   handleGetAppliedJobsByUser,
-//   handleGetAllAppliedApplicants
-// } = require("../controllers/application.contoller");
-
-
 const {
-reccomandationController ,
-analyserController
+  reccomandationController,
+  analyserController,
+  evaluateUserResumeATSScore,
 } = require("../controllers/features.controller");
 const Authenticated = require("../middlewares/authentication.middleware");
 
+router.post("/test", Authenticated, reccomandationController);
+router.post("/test2", Authenticated, analyserController);
+router.post("/test3", Authenticated, evaluateUserResumeATSScore);
 
-
-// router.get("/get",Authenticated,handleGetAppliedJobsByUser);
-
-// // router.get("/",Authenticated,handleGetAllAppliedApplicants);
-// router.get("/job/:jobId",Authenticated,handleGetAllAppliedApplicants);
-// router.post("/apply/:jobId",Authenticated,handleApplyToJob) ;
-// router.post("/status/:applicationId/update",Authenticated,handleUpdateApplicationStatus);
-
-
-router.post("/test",Authenticated,reccomandationController) ;
-router.post("/test2",Authenticated,analyserController) ;
-
-
-module.exports = router ;
+module.exports = router;

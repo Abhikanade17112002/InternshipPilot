@@ -3,7 +3,9 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cloudinary = require("../utiils/cloudinary");
 const deleteServerSideFiles = require("../utiils/deleteServerSideFiles");
-
+const { sendWelcomeUserEmail } = require("../utiils/emailTemplate");
+const nodemailer = require("nodemailer");
+const sendEmail = require("../utiils/sendEmails");
 
 const handleUserAuthentication = async ( request , response ) =>{
   try {
@@ -134,6 +136,10 @@ const handleUserSignUp = async (request, response) => {
     }
 
 
+    const data = { subject : "REGISTRATION" ,"name":newUser.firstName+" "+newUser.lastName,"role":newUser?.role ,"email":newUser?.email}; 
+      sendEmail(data)
+    
+    
     response
       .status(200)
       .cookie("jwttoken", signedToken, {
@@ -250,18 +256,108 @@ const handleUserSignOut = async (request, response) => {
   }
 };
 
+// const handleUserProfileUpdate = async (request, response) => {
+//   try {
+//     const { firstName, lastName, phoneNumber, bio, skills, email } =
+//       request.body;
+//    if( request?.files) {
+//     const profilePath = request?.files?.profilePic[0]?.path;
+//     const resumePath = request?.files?.resume[0]?.path;
+//     let profileURL = await cloudinary.uploader.upload(profilePath);
+//     let resumeURL = await cloudinary.uploader.upload(resumePath);
+//     profileURL.secure_url = profileURL.secure_url.replace(".pdf", ".jpg");
+//     resumeURL.secure_url = resumeURL.secure_url.replace(".pdf", ".jpg");
+//   }
+
+    
+
+//     // Check if all fields are provided
+//     if (!firstName || !lastName || !phoneNumber || !bio || !skills || !email) {
+//       return response.status(400).json({
+//         message: "Please fill all the fields",
+//         status: false,
+//       });
+//     }
+
+//     const skillsArray = skills?.split(",");
+//     const userId = request.userId;
+
+//     // Find the user by ID
+//     let user = await UserModel.findById(userId);
+//     if (!user) {
+//       return response.status(404).json({
+//         message: "User not found",
+//         status: false,
+//       });
+//     }
+
+//     const updateInfo = {};
+//     if (firstName) updateInfo.firstName = firstName;
+//     if (lastName) updateInfo.lastName = lastName;
+//     if (phoneNumber) updateInfo.phoneNumber = phoneNumber;
+//     updateInfo.profile = {};
+//     if (bio) updateInfo.profile.bio = bio;
+
+//     if (skillsArray.length > 0) updateInfo.profile.skills = skillsArray;
+//     if (email) updateInfo.email = email;
+//     if (profileURL) updateInfo.profile.profilePhoto = profileURL.secure_url;
+
+//     if (resumeURL) updateInfo.profile.resume = resumeURL.secure_url;
+    
+//     deleteServerSideFiles(resumePath) ;
+//     deleteServerSideFiles(profilePath) ;
+//     // Update the user data using findByIdAndUpdate for cleaner updates
+//     const updatedUser = await UserModel.findByIdAndUpdate(
+//       userId,
+//       updateInfo,
+//       { new: true } // Return the updated user
+//     );
+
+
+//     return response.status(200).json({
+//       message: "User profile updated successfully",
+//       status: true,
+//       user: updatedUser,
+//     });
+//   } catch (error) {
+//     console.log("Error updating profile: ", error);
+//     return response.status(500).json({
+//       message: "Something went wrong while updating profile",
+//       status: false,
+//     });
+//   }
+// };
+
+
 const handleUserProfileUpdate = async (request, response) => {
   try {
     const { firstName, lastName, phoneNumber, bio, skills, email } =
       request.body;
 
-    const profilePath = request?.files?.profilePic[0]?.path;
-    const resumePath = request?.files?.resume[0]?.path;
+    let profileURL = null;
+    let resumeURL = null;
+    let profilePath = null;
+    let resumePath = null;
 
-    let profileURL = await cloudinary.uploader.upload(profilePath);
-    let resumeURL = await cloudinary.uploader.upload(resumePath);
-    profileURL.secure_url = profileURL.secure_url.replace(".pdf", ".jpg");
-    resumeURL.secure_url = resumeURL.secure_url.replace(".pdf", ".jpg");
+    // Check if files are present
+    if (request.files) {
+      if (request.files.profilePic) {
+        profilePath = request.files.profilePic[0]?.path;
+      }
+      if (request.files.resume) {
+        resumePath = request.files.resume[0]?.path;
+      }
+
+      // Upload files to Cloudinary if they exist
+      if (profilePath) {
+        profileURL = await cloudinary.uploader.upload(profilePath);
+        profileURL.secure_url = profileURL.secure_url.replace(".pdf", ".jpg");
+      }
+      if (resumePath) {
+        resumeURL = await cloudinary.uploader.upload(resumePath);
+        resumeURL.secure_url = resumeURL.secure_url.replace(".pdf", ".jpg");
+      }
+    }
 
     // Check if all fields are provided
     if (!firstName || !lastName || !phoneNumber || !bio || !skills || !email) {
@@ -271,7 +367,9 @@ const handleUserProfileUpdate = async (request, response) => {
       });
     }
 
-    const skillsArray = skills?.split(",");
+    const skillsArray = skills
+  .split(",")                         
+  .map(skill => skill.trim());
     const userId = request.userId;
 
     // Find the user by ID
@@ -292,19 +390,25 @@ const handleUserProfileUpdate = async (request, response) => {
 
     if (skillsArray.length > 0) updateInfo.profile.skills = skillsArray;
     if (email) updateInfo.email = email;
-    if (profileURL) updateInfo.profile.profilePhoto = profileURL.secure_url;
+    if (profileURL){ updateInfo.profile.profilePhoto = profileURL.secure_url;}
+    else if( user?.profile?.profilePhoto ){
+      updateInfo.profile.profilePhoto =  user?.profile?.profilePhoto 
+    }
+    if (resumeURL){ updateInfo.profile.resume = resumeURL.secure_url}
+    else if(user?.profile?.resume){
+      updateInfo.profile.resume = user?.profile?.resume
 
-    if (resumeURL) updateInfo.profile.resume = resumeURL.secure_url;
-    
-    deleteServerSideFiles(resumePath) ;
-    deleteServerSideFiles(profilePath) ;
+    }
+    ;
+
+    // Delete files only if they exist
+    if (resumePath) deleteServerSideFiles(resumePath);
+    if (profilePath) deleteServerSideFiles(profilePath);
+
     // Update the user data using findByIdAndUpdate for cleaner updates
-    const updatedUser = await UserModel.findByIdAndUpdate(
-      userId,
-      updateInfo,
-      { new: true } // Return the updated user
-    );
-
+    const updatedUser = await UserModel.findByIdAndUpdate(userId, updateInfo, {
+      new: true, // Return the updated user
+    });
 
     return response.status(200).json({
       message: "User profile updated successfully",
@@ -319,6 +423,7 @@ const handleUserProfileUpdate = async (request, response) => {
     });
   }
 };
+
 
 module.exports = {
   // export the functions to be used in other files

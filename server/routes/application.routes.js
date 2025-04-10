@@ -3,20 +3,17 @@ const {
   handleUpdateApplicationStatus,
   handleApplyToJob,
   handleGetAppliedJobsByUser,
-  handleGetAllAppliedApplicants
+  handleGetAllAppliedApplicants,
 } = require("../controllers/application.contoller");
 const Authenticated = require("../middlewares/authentication.middleware");
 
+router.get("/get", Authenticated, handleGetAppliedJobsByUser);
+router.get("/job/:jobId", Authenticated, handleGetAllAppliedApplicants);
+router.post("/apply/:jobId", Authenticated, handleApplyToJob);
+router.post(
+  "/status/:applicationId/update",
+  Authenticated,
+  handleUpdateApplicationStatus
+);
 
-
-router.get("/get",Authenticated,handleGetAppliedJobsByUser);
-
-// router.get("/",Authenticated,handleGetAllAppliedApplicants);
-router.get("/job/:jobId",Authenticated,handleGetAllAppliedApplicants);
-router.post("/apply/:jobId",Authenticated,handleApplyToJob) ;
-router.post("/status/:applicationId/update",Authenticated,handleUpdateApplicationStatus);
-
-
-
-
-module.exports = router ;
+module.exports = router;
