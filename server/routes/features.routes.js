@@ -6,8 +6,8 @@ const {
 } = require("../controllers/features.controller");
 const Authenticated = require("../middlewares/authentication.middleware");
 
-router.post("/test", Authenticated, reccomandationController);
-router.post("/test2", Authenticated, analyserController);
-router.post("/test3", Authenticated, evaluateUserResumeATSScore);
+router.post("/recommend", Authenticated, reccomandationController);
+router.post("/evaluate", Authenticated, analyserController);
+router.post("/atsscore", Authenticated, evaluateUserResumeATSScore);
 
 module.exports = router;

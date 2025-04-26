@@ -26,9 +26,10 @@ const getColor = (value) => {
 };
 
 const getIcon = (value) => {
-  if (value >= 75) return <CheckCircle size={24} className="text-green-500" />;
-  if (value >= 50) return <AlertTriangle size={24} className="text-yellow-500" />;
-  return <XCircle size={24  } className="text-red-500" />;
+// In your component's getIcon function:
+if (value >= 75) return <CheckCircle data-testid="check-circle-icon" size={24} className="text-green-500" />;
+if (value >= 50) return <AlertTriangle data-testid="alert-triangle-icon" size={24} className="text-yellow-500" />;
+return <XCircle data-testid="x-circle-icon" size={24} className="text-red-500" />;
 };
 
 const EvaluateResultDialogBox = ({

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import {
   Table,
@@ -26,7 +25,7 @@ import { socketcontext } from "@/context/socketConext";
 import { Loader2 } from "lucide-react";
 
 const ApplicantsTable = () => {
-  const [applicants, setApplicants] = useState([]);
+  const [applicants, setApplicants] = useState( []);
   const [jobInfo, setJobInfo] = useState(null);
   const [companyInfo, setCompanyInfo] = useState(null);
   const [showATSScores, setShowATSScores] = useState(false);
@@ -122,7 +121,7 @@ const ApplicantsTable = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/features/test3`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/features/atsscore`,
         requestBody,
         {
           headers: {
@@ -357,27 +356,27 @@ const ApplicantsTable = () => {
                           <AvatarImage src={app.applicant?.profile?.profilePhoto} />
                         </Avatar>
                       </TableCell>
-                      <TableCell className="py-4 px-4 text-center font-medium">
+                      <TableCell  data-testid="applicant-name" className="py-4 px-4 text-center font-medium">
                         {app.applicant?.firstName} {app.applicant?.lastName}
                       </TableCell>
-                      <TableCell className="py-4 px-4 text-center max-w-[200px]">
-                        <div className="flex flex-wrap justify-center gap-1 overflow-auto max-h-24">
-                          {Array.isArray(app.applicant?.profile?.skills) &&
-                            app.applicant.profile.skills.map((skill, i) => (
-                              <span
-                                key={i}
-                                className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded dark:bg-blue-900 dark:text-blue-300 mb-1"
-                              >
-                                {skill}
-                              </span>
-                            ))}
-                          {(!app.applicant?.profile?.skills || app.applicant.profile.skills.length === 0) && 
-                            <span className="text-gray-500 italic">No skills listed</span>
-                          }
-                        </div>
-                      </TableCell>
+                      <TableCell className="py-4 px-4 text-center max-w-[250px]">
+  <div className="flex flex-wrap justify-center gap-1 overflow-y-auto max-h-24 px-2 py-2 rounded-md shadow-inner bg-white dark:bg-gray-800 custom-scrollbar">
+    {Array.isArray(app.applicant?.profile?.skills) &&
+      app.applicant.profile.skills.map((skill, i) => (
+        <span
+          key={i}
+          className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded dark:bg-blue-900 dark:text-blue-300 mb-1"
+        >
+          {skill}
+        </span>
+      ))}
+    {(!app.applicant?.profile?.skills || app.applicant.profile.skills.length === 0) && (
+      <span className="text-gray-500 italic">No skills listed</span>
+    )}
+  </div>
+</TableCell>
                       <TableCell className="py-4 px-4 text-center">
-                        <div className="max-w-[200px] max-h-24 overflow-auto">
+                        <div className="max-w-[200px] max-h-24 overflow-auto custom-scrollbar">
                           {app.applicant?.profile?.bio || <span className="text-gray-500 italic">No bio provided</span>}
                         </div>
                       </TableCell>

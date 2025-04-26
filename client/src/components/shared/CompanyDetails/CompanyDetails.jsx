@@ -80,6 +80,8 @@ const CompanyDetails = () => {
       </h1>
       <div className="formContainer max-w-3xl mx-auto border py-4 px-6  rounded-lg my-4">
         <form
+          role="form"
+          data-testid="company-details-form" 
           action=""
           className="py-2"
           onSubmit={handleSubmit(handleFillCompanyDetails)}

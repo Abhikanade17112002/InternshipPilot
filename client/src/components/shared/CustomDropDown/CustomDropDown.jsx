@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@radix-ui/react-label";
 
+
 const CustomDropDown = ({
   dropDownOptions,
   label,
@@ -20,13 +21,13 @@ const CustomDropDown = ({
 }) => {
   return (
     <div className="px-4 my-2">
-      <Label className="text-sm font-semibold">{label}</Label>
+      <Label htmlFor={name} className={`text-sm font-semibold `}>{label}</Label>
 
       <Controller
         name={name}
         control={control}
         render={({ field: { onChange, value } }) => (
-          <Select value={value} onValueChange={onChange}>
+          <Select value={value} onValueChange={onChange}  name={name}>
             <SelectTrigger className="w-full my-2">
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>

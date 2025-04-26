@@ -177,7 +177,7 @@ const JobsCard = ({ job }) => {
         
         {/* Job Posting Date & Bookmark Button */}
         <div className="flex justify-between items-center mb-3">
-          <span className="text-gray-500 text-sm">{daysAgo(job.createdAt)} </span>
+          <span className="text-gray-500 text-sm">{daysAgo(job?.createdAt)} </span>
           <Button variant="outline" className="border rounded-full p-2 hover:bg-gray-100" size="icon">
             <Bookmark className="w-4 h-4 text-gray-600" />
           </Button>
@@ -186,16 +186,16 @@ const JobsCard = ({ job }) => {
         {/* Company Info */}
         <div className="flex items-center gap-4 mb-4">
           <Avatar className="w-12 h-12">
-            <AvatarImage src={job.company.companyLogo || "/default-logo.png"} alt="Company Logo" />
+            <AvatarImage src={job?.company?.companyLogo || "/default-logo.png"} alt="Company Logo" />
           </Avatar>
           <div>
-            <h5 className="text-lg font-semibold">{job.company.companyName || "Unknown Company"}</h5>
-            <h6 className="text-sm text-gray-500">{job.company.companyAddress || "Location not specified"}</h6>
+            <h5 className="text-lg font-semibold">{job?.company?.companyName || "Unknown Company"}</h5>
+            <h6 className="text-sm text-gray-500">{job?.company?.companyAddress || "Location not specified"}</h6>
           </div>
         </div>
 
         {/* Job Title */}
-        <h2 className="text-xl font-bold text-gray-900 mb-3">{job.title}</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-3">{job?.title}</h2>
 
         {/* Full Job Description */}
         <p className="text-gray-700 text-sm leading-relaxed mb-4 line-clamp-6">

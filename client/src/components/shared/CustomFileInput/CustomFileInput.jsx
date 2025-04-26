@@ -3,9 +3,9 @@ import { Label } from "@/components/ui/label";
 const CustomFileInput = ({ label, register, name, errors }) => {
   return (
     <div className="w-full my-2 px-4 ">
-      <Label>{label}</Label>
-      <div class="w-full py-9 bg-gray-50 rounded-2xl border border-gray-300 border-dashed">
-        <div class="grid gap-3">
+      <Label >{label}</Label>
+      <div className="w-full py-9 bg-gray-50 rounded-2xl border border-gray-300 border-dashed">
+        <div className="grid gap-3">
           <div>
             <svg
               class="mx-auto mb-1"
@@ -27,14 +27,14 @@ const CustomFileInput = ({ label, register, name, errors }) => {
               PNG, JPG or PDF, smaller than 15MB
             </h2>
           </div>
-          <div class="grid gap-2">
-            <h4 class="text-center text-gray-900 text-sm font-medium leading-snug">
+          <div className="grid gap-2">
+            <h4 className="text-center text-gray-900 text-sm font-medium leading-snug">
               Drag and Drop your file here or
             </h4>
             <div class="flex items-center justify-center">
               <label>
                 <input type="file" hidden  {...register} />
-                <div class="flex w-28 h-9 px-2 flex-col bg-indigo-600 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
+                <div className="flex w-28 h-9 px-2 flex-col bg-indigo-600 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
                   Choose File
                 </div>
               </label>

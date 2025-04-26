@@ -168,7 +168,8 @@ const handleUserSignIn = async (request, response) => {
   try {
     const { email, password, role } = request.body;
 
-
+     console.log({ email, password, role } );
+     
     if (!email || !password || !role) {
       return response.status(200).json({
         message: "please fill all the fields",
