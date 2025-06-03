@@ -1,9 +1,7 @@
-
 import facebook from "../../../assets/facebook.png";
 import twitter from "../../../assets/twitter.png";
 import insta from "../../../assets/insta.png";
 import youtube from "../../../assets/youtube.webp";
-
 
 const Footer = () => {
   return (
@@ -17,14 +15,14 @@ const Footer = () => {
               {"Intern Pilot".split("").map((char, index) => (
                 <span
                   key={index}
-                  className="transition-all duration-300 hover:text-purple-400"
+                  className="transition-all duration-300 hover:text-white"
                 >
                   {char}
                 </span>
               ))}
             </div>
-            <p className="mt-3 text-red-500 max-w-xs mx-auto md:mx-0">
-              Disclaimer : All The Names And Images Used In This Project Are Valid Till Educational Purpose Use Only 
+            <p className="mt-3 text-gray-400 max-w-xs mx-auto md:mx-0">
+              Empowering students and fresh graduates to launch their careers with confidence. Intern Pilot is your co-pilot on the journey from classroom to career.
             </p>
           </div>
 
@@ -32,35 +30,41 @@ const Footer = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:w-2/3">
             {[
               {
-                title: "BUILD YOUR BUSINESS",
+                title: "EXPLORE CAREERS",
                 links: [
-                  "Business ideas",
-                  "Case studies",
-                  "Design & branding",
-                  "Dropshipping",
-                  "Marketing",
+                  "Internship Opportunities",
+                  "Career Paths",
+                  "Top Companies",
+                  "Remote Internships",
+                  "Job Shadowing",
                 ],
               },
               {
-                title: "STORIES",
+                title: "RESOURCES",
                 links: [
-                  "A day in my life",
-                  "My first 90 days",
-                  "Raise the bar",
-                  "Starter stories",
+                  "Resume Builder",
+                  "Cover Letter Tips",
+                  "Interview Prep",
+                  "LinkedIn Guide",
+                  "Portfolio Advice",
                 ],
               },
               {
-                title: "YOUR LIFE",
-                links: ["Mindset", "Money", "Productivity", "Well-being"],
+                title: "COMMUNITY",
+                links: [
+                  "Success Stories",
+                  "Mentor Sessions",
+                  "Webinars & Events",
+                  "Campus Ambassadors",
+                ],
               },
               {
-                title: "FREE BUSINESS TOOLS",
+                title: "TOOLS",
                 links: [
-                  "Business Name Generator",
-                  "Slogan Generator",
-                  "Traffic Calculator",
-                  "Profit Margin Calculator",
+                  "Skill Assessment",
+                  "Internship Tracker",
+                  "ATS Checker",
+                  "Salary Estimator",
                 ],
               },
             ].map((section, i) => (
@@ -71,7 +75,7 @@ const Footer = () => {
                     <li key={j}>
                       <a
                         href="#"
-                        className="text-gray-400 hover:text-purple-400 transition-all duration-300 ease-in-out"
+                        className="text-gray-400 hover:text-white transition-all duration-300 ease-in-out"
                       >
                         {link}
                       </a>
@@ -100,7 +104,7 @@ const Footer = () => {
 
           {/* Language Button */}
           <div className="mt-4 md:mt-0">
-            <button className="bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center hover:bg-purple-500 transition-all duration-300">
+            <button className="bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center  transition-all duration-300">
               <span className="mr-2">🌐</span>
               <span>English</span>
             </button>
@@ -108,21 +112,28 @@ const Footer = () => {
         </div>
 
         {/* Footer Bottom */}
-        <div className="mt-8 text-center md:text-left text-gray-400 text-xs">
-          <p>
-            &copy; 2015-2024 Oberlo |{" "}
+        <div className="mt-8 text-center md:text-left text-gray-400 text-xs ">
+          <p className="">
+            &copy; 2024 Intern Pilot |{" "}
             <a
               href="#"
-              className="hover:text-purple-400 transition-all duration-300"
+              className="hover:text-white  transition-all duration-300"
             >
-              Legal
+              Terms & Conditions
             </a>{" "}
             |{" "}
             <a
               href="#"
-              className="hover:text-purple-400 transition-all duration-300"
+              className="hover:text-white  transition-all duration-300"
             >
-              Sitemap
+              Privacy Policy
+            </a>{" "}
+            |{" "}
+            <a
+              href="#"
+              className="hover:text-white transition-all duration-300"
+            >
+              Contact Us
             </a>
           </p>
         </div>

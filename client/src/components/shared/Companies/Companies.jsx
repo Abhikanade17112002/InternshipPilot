@@ -26,6 +26,7 @@ function Companies() {
                     />
                     <Button  className="text-[10px] sm:text-sm" onClick={() => navigate("/admin/company/register")}>Register A New Company</Button>
                 </div>
+                <div className="py-4 text-center font-bold">Listed Companies</div>
                 <CompaniesTable   searchParam={searchParam}  setSearchParam={setSearchParam}/>
             </div>
         </div>

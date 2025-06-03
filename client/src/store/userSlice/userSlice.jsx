@@ -178,9 +178,9 @@ const userSlice = createSlice({
   },
 });
 
-export const getUserInfo = (state) => state.user.user;
-export const getIsLoading = (state) => state.user.state;
-export const getIsAuthenticated = (state) => state.user.isAuthenticated;
+export const getUserInfo = (state) => state?.user?.user;
+export const getIsLoading = (state) => state?.user?.state;
+export const getIsAuthenticated = (state) => state?.user?.isAuthenticated;
 
 export default userSlice.reducer;
 export const {} = userSlice.actions;

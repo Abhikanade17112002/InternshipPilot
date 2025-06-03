@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 const CustomInput = ({ label, placeholder, errors, type, name, register }) => {
   return (
     <div className="w-full px-4 py-2 my-2">
-      <Label>{label}</Label>
-      <Input type={type} placeholder={placeholder} {...register} />
+      <Label  htmlFor={name} >{label}</Label>
+      <Input type={type} id={name} name={name} placeholder={placeholder} {...register} />
       {errors[name] ? (
         <div className="error">
           <span className="error-text text-[10px] text-red-700 font-semibold">

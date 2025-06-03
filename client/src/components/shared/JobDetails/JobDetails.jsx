@@ -109,7 +109,7 @@ const JobDetails = () => {
     try {
       setEvaluatingResume(true);
 
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/features/test2`,{"resumes":[{"user_id":userId , "url":resumeUrl}] , "job_description":jobDescription}
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/features/evaluate`,{"resumes":[{"user_id":userId , "url":resumeUrl}] , "job_description":jobDescription}
         ,
         {
           headers: {
@@ -126,7 +126,7 @@ const JobDetails = () => {
           ]
         }
         const response2 = await axios.post(
-          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/features/test3`,
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/features/atsscore`,
           requestBody,
           {
             headers: {
@@ -190,7 +190,7 @@ const JobDetails = () => {
       <div className="flex justify-between items-start mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">{job?.title}</h1>
-          <p className="text-lg text-gray-600">Posted {daysAgo(job?.createdAt)}</p>
+          <p className="text-lg text-gray-600">Posted over {daysAgo(job?.createdAt)}</p>
           <div className="flex gap-3 mt-4 flex-wrap">
             <Badge className="bg-blue-100 text-blue-700 text-sm">{job?.position} Positions</Badge>
             <Badge className="bg-red-100 text-red-600 text-sm">{job?.jobType}</Badge>
@@ -203,6 +203,7 @@ const JobDetails = () => {
   
   <div>
     <Button
+      data-testid="apply-button"
       onClick={() => handleApplyToJob(userInfo?._id, job?._id)}
       disabled={hasApplicantApplied}
       className={`px-8 py-3 text-white text-lg font-semibold rounded-md transition-all duration-300 ${

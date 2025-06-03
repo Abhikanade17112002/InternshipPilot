@@ -5,7 +5,6 @@ const reccomandationController = async (request,response) =>{
 
     try {
         const data = request.body;
-        console.log(typeof data);
 
         const filtertedUserInfo = {"name":data?.userInfo.firstname + " " + data?.userInfo.lastname , "skills": data.userInfo.skills} ;
         const FiltredInternshipData = data.internships.map((internship)=>{

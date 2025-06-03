@@ -26,6 +26,7 @@ function AdminJobs() {
                     />
                     <Button className="w-fit text-[8px] sm:text-sm"  onClick={() => navigate("/admin/post/job")}>Post New Job</Button>
                 </div>
+                <div className="text-center font-bold py-4">Listed Jobs</div>
                 <AdminJobsTable   searchParam={searchParam}  setSearchParam={setSearchParam}/>
             </div>
         </div>
